@@ -1,11 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, View, SafeAreaView, FlatList, Image, Touchable} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView, FlatList, Image, Dimensions} from 'react-native';
 import { TextInput, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import data from '../src/data'
 import Feather from 'react-native-vector-icons/Feather';
 import Octicons from 'react-native-vector-icons/Octicons';
-import {Dimensions} from 'react-native';
-
 
 const {height, width} = Dimensions.get('window')
 
@@ -21,11 +19,11 @@ export default function Home({navigation}) {
           </View>             
           <View style={styles.action}>        
             <View style={styles.rating}>
-              <Octicons name="star" size={15} style={styles.star}/>
-              <Octicons name="star" size={15} style={styles.star}/>
-              <Octicons name="star" size={15} style={styles.star}/>
-              <Octicons name="star" size={15} style={styles.star}/>
-              <Octicons name="star" size={15} style={styles.star}/>
+              <Octicons name="star" size={18} style={styles.star}/>
+              <Octicons name="star" size={18} style={styles.star}/>
+              <Octicons name="star" size={18} style={styles.star}/>
+              <Octicons name="star" size={18} style={styles.star}/>
+              <Octicons name="star" size={18} style={styles.star}/>
             </View>
             <View>
               <Feather name="chevron-right" size={15}/>
@@ -146,30 +144,33 @@ const styles = StyleSheet.create({
   },
   popular: {
     backgroundColor: '#f6f6f6',
-    marginLeft: 20,
-    width: width / 2.7,
-    height: width / 2.4,
+    marginHorizontal: 20,
+    width: height / 4,
+    height: height / 4,
     marginBottom: 10,
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 20,
-    marginRight: 30,
+    marginRight: 20,
     elevation: 4,
   },
   imgTitle: {
-    top: -30,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    overflow: 'visible',
+    marginVertical: 10,
+    marginHorizontal: 15,
   },
   popularImage: {
-    left: -30,
-    width: 130,
-    height: 180,
+    flex: 1,
+    width: 110,
+    height: 150,
     resizeMode: 'contain',
   },
   popularTitle: {
-    top: 40,
+    flex: 1,
+    top: 10,
     fontSize: 16,
-    marginLeft: 15,
     fontWeight: '600',
     width: 100,
   },
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'center',
-    top: -15,
+    marginVertical: 4,
     marginHorizontal: 15,
   },
   rating: {
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
   },
   star: {
     color: '#ffd206',
-
+    marginHorizontal: 1,
   },
   featured: {
     backgroundColor: '#f6f6f6',
@@ -201,6 +202,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   featuredImage: {
+    flex: 1,
     width: 60,
     height: 100,
     resizeMode: 'contain',
