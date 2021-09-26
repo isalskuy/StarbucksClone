@@ -16,7 +16,7 @@ export default function Home({navigation}) {
           <View style={styles.cart.Button}>
             <Ionicons name="cart-outline" size={24}/>
             <View style={styles.badge}>
-              <Text style={styles.badgeButton}>3</Text>
+              <Text style={styles.badgeButton}>title</Text>
             </View>
           </View>
         </View>
