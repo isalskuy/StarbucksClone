@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRef } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Animated } from 'react-native';
-import {TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -18,7 +18,7 @@ export default function Details({navigation}) {
       inputRange: [(index - 1) * width, index * width, (index + 1) * width],
       outputRange: [-width / 2, 0, width / 2]
     });
-
+    
     const scale = scrollX.interpolate({
       inputRange: [(index - 1) * width, index * width, (index + 1) * width],
       outputRange: [.7, 1.1, .7]
@@ -37,16 +37,10 @@ export default function Details({navigation}) {
               <Octicons name="star" size={15} style={styles.star}/>
             </View>
           </View>
-          <Animated.Image source={item.image} style={[styles.sliderImage, {
-            transform: [
-              {
-                translateX
-              },
-              {
-                scale
-              }
-            ]
-          }]}/>
+          <Animated.Image
+          source={item.image}
+          style={[styles.sliderImage,
+          {transform: [ {translateX}, {scale} ] }]}/>
         </View>
         <View 
           style={{
@@ -59,7 +53,32 @@ export default function Details({navigation}) {
             transform: [{rotateX: '75deg'}],
           }}
         />
-      </View>
+
+        <View style={{marginHorizontal: 20}}>
+          <Text style={{fontWeight: 'bold', 
+          fontSize: 16}}>Available Sizes</Text>         
+        </View>
+
+        <View style={{flexDirection: 'row', 
+        alignItems: 'center'}}>
+          <View style={styles.sizeOptions1}>
+            <Image source={require('../src/icons/size.png')} style={styles.size}/>
+            <Text style={{color:'#ffffff'}}>Tall</Text>
+            <Text style={{color:'#ffffff'}}>340ml</Text>
+          </View>
+          <View style={styles.sizeOptions}>
+          <Image source={require('../src/icons/size.png')} style={styles.size}/>
+            <Text>Grande</Text>
+            <Text>300ml</Text>
+          </View>
+          <View style={styles.sizeOptions}>
+            <Image source={require('../src/icons/size.png')} style={styles.size}/>
+            <Text>Venti</Text>
+            <Text>260ml</Text>
+          </View>
+        </View>
+      </View>      
+      
     )
   }
   return (
@@ -89,26 +108,37 @@ export default function Details({navigation}) {
           snapToInterval={width}
           scrollEventThrottle={18}
           decelerationRate={0}
-          contentContainerStyle={{
-            alignItems: 'center',
-          }}
+          contentContainerStyle={{alignItems: 'center'}}
           renderItem={({item, index}) => (
+            
           <Slider item={item} index={index} scrollX={scrollX}/>
-          )}
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    x: scrollX,
-                  },
-                },
-              },
-            ],
-            { useNativeDriver: true }
-          )}
-        />
-      </View>  
+          )}onScroll={Animated.event([{nativeEvent:
+            {contentOffset:
+              {x: scrollX}, }, }, ],
+              { useNativeDriver: true })}
+          />
+      </View>
+      <View style={{
+        flexDirection: 'row', 
+        justifyContent: 'space-between',
+        marginVertical: 25,
+        marginHorizontal: 20,
+        alignItems:'center'}}>
+        <View style={styles.qtyWrapper}>
+          <View style={styles.qtyBtn}>
+            <Feather name='minus' size={18}/>
+          </View>
+          <Text style={{fontSize: 20}}>1</Text>
+          <View style={styles.qtyBtn}>
+            <Feather name='plus' size={18}/>
+          </View>
+        </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Cart')}
+          style={styles.addBtn}>
+          <Text style={{color: '#ffffff'}}>Add to cart</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -126,7 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#ebebeb',
     elevation: 1,
   },
   cartButton: {
@@ -171,5 +201,62 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginVertical: 30,
     zIndex: 1,
+  },
+
+  sizeOptions1: {
+    width: 120,
+    height: 120,
+    borderRadius: 50,
+    backgroundColor: '#036637',
+    marginHorizontal: 20,
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  sizeOptions: {
+    width: 120,
+    height: 120,
+    borderRadius: 50,
+    backgroundColor: '#ebebeb',
+    marginHorizontal: 20,
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  addBtn: {
+    backgroundColor: '#036637',
+    width: 110,
+    height: 45,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  size: {
+    resizeMode: 'contain',
+    height: 48,
+    marginBottom: 5,
+  },
+
+  qtyWrapper: {
+    borderWidth: 1,
+    borderColor: '#c2c2c2',
+    flexDirection: 'row',
+    borderRadius: 10,
+    width: 120,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  qtyBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#c2c2c2',
+    borderRadius: 10,
+    height: 40,
+    width: 40,
   }
 })

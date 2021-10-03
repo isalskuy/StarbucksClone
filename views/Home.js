@@ -154,11 +154,12 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   imgTitle: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     overflow: 'visible',
-    marginVertical: 10,
+    marginVertical: 5,
     marginHorizontal: 15,
   },
   popularImage: {
@@ -177,8 +178,8 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignContent: 'center',
-    marginVertical: 4,
+    alignItems: 'center',
+    marginBottom: 20,
     marginHorizontal: 15,
   },
   rating: {
