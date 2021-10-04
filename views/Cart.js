@@ -1,26 +1,48 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Animated } from 'react-native';
-import {FlatList, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {FlatList, Swipeable, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { interpolate } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Feather from 'react-native-vector-icons/Feather';
 import data from '../src/data'
 
 
-export default function Details({navigation}) {  
+export default function Cart({navigation}) {
+
+  const RenderRight = ({progress}) => {
+    
+    const opacity = progress.interpolate({
+      inputRange: [-40, 0],
+      outputRange: [1, 0]
+    });
+
+    return (
+      <TouchableOpacity>
+        <Animated.View style={[styles.rightActions,{ opacity}, ]}>
+          <Feather name="trash-2" size={30} style={{color: '#ffffff'}}/>
+        </Animated.View>
+      </TouchableOpacity>
+    )
+  }
+
   const item = ({item}) => {
     return (
       <View style={styles.itemwrapper}>
+
+        <Swipeable renderRightActions={(dragX, progress) => <RenderRight progress={progress} />}>
         <View style={styles.item}>
+
           <View>
             <Image source={item.image} style={styles.itemImage}/>
           </View>
-          <View>
+
+          <View style={{alignItems: 'flex-start', width: 180}}>
             <Text style={styles.itemTitle}>{item.name}</Text>
             <View style={styles.qtyWrapper}>
               <View style={styles.qtyBtn}>
                 <Feather name='minus' size={18}/>
               </View>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>1</Text>
+            <Text style={styles.qtyText}>1</Text>
             <View style={styles.qtyBtn}>
               <Feather name='plus' size={18}/>
             </View>
@@ -28,6 +50,7 @@ export default function Details({navigation}) {
           </View>
           
         </View>
+        </Swipeable>
       </View>
     )
   }
@@ -56,6 +79,16 @@ export default function Details({navigation}) {
         keyExtractor={data => data.id}
         showsVerticalScrollIndicator={false}
         renderItem={item}/>
+      </View>
+
+      <View style={styles.bottomOrder}>
+        <View>
+          <Text style={{color: '#036637', fontWeight: 'bold', fontSize: 18,}}>Total Price</Text>
+          <Text style={{color: '#5a5a5a', fontWeight: 'bold', fontSize: 18,}}>IDR 75.000</Text>     
+        </View>
+        <TouchableOpacity style={styles.orderBtn}>
+          <Text style={{color: '#ffffff', fontSize: 16,}}>Order Now</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -116,7 +149,6 @@ const styles = StyleSheet.create({
     borderColor: '#c2c2c2',
     flexDirection: 'row',
     borderRadius: 8,
-    width: 95,
     height: 30,
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -130,5 +162,32 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     height: 30,
     width: 30,
+  },
+  qtyText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+  },
+  rightActions: {
+    backgroundColor: '#036637',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: 60,
+  },
+  bottomOrder: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    paddingBottom: 60,
+    paddingHorizontal: 20,        
+  },
+  orderBtn: {
+    backgroundColor: '#036637',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
   }
 })
